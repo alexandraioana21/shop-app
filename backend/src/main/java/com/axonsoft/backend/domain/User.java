@@ -1,7 +1,10 @@
 package com.axonsoft.backend.domain;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Builder;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
@@ -10,7 +13,8 @@ import javax.persistence.Table;
 import java.util.HashSet;
 import java.util.Set;
 
-
+@Getter
+@Setter
 @NoArgsConstructor
 @Entity
 @Table(name = "users")
@@ -22,6 +26,7 @@ public class User extends BaseEntity{
     private String password;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
+    @JsonManagedReference
     private Set<Order> orders = new HashSet<>();
 
     @Builder
@@ -35,31 +40,4 @@ public class User extends BaseEntity{
             this.orders = orders;
     }
 
-    public String getUsername() {
-        return username;
-    }
-
-    public String getFirstname() {
-        return firstname;
-    }
-
-    public void setFirstname(String firstname) {
-        this.firstname = firstname;
-    }
-
-    public String getLastname() {
-        return lastname;
-    }
-
-    public void setLastname(String lastname) {
-        this.lastname = lastname;
-    }
-
-    public Set<Order> getOrders() {
-        return orders;
-    }
-
-    public void setOrders(Set<Order> orders) {
-        this.orders = orders;
-    }
 }

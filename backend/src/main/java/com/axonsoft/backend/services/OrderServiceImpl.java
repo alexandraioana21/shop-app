@@ -1,6 +1,7 @@
 package com.axonsoft.backend.services;
 
 import com.axonsoft.backend.domain.Order;
+import com.axonsoft.backend.exceptions.NotFoundException;
 import com.axonsoft.backend.mappers.OrderMapper;
 import com.axonsoft.backend.model.OrderDTO;
 import com.axonsoft.backend.model.UserDTO;
@@ -67,6 +68,6 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public OrderDTO findOrderById(Long id) {
-        return orderMapper.orderToOrderDTO(orderRepository.findById(id).get());
+        return orderMapper.orderToOrderDTO(orderRepository.findById(id).orElseThrow(NotFoundException::new));
     }
 }

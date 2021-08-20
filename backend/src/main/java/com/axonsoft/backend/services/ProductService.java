@@ -17,4 +17,6 @@ public interface ProductService {
     void deleteProduct(ProductDTO productDTO);
 
     void deleteProductById(Long id);
+
+    List<ProductDTO> findProductsByProductType(String type);
 }

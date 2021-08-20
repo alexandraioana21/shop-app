@@ -17,38 +17,44 @@ public class UserController {
         this.userService = userService;
     }
 
+    @GetMapping("login")
+    @ResponseStatus(HttpStatus.OK)  //checked
+    public UserDTO login(@RequestBody UserDTO userDTO){
+        return userService.findUsersByUsernameAndPassword(userDTO);
+    }
+
     @GetMapping
-    @ResponseStatus(HttpStatus.OK)
+    @ResponseStatus(HttpStatus.OK)  //checked
     public List<UserDTO> findAllUsers(){
         return userService.findAllUsers();
     }
 
-    @GetMapping("{lastname}")
-    @ResponseStatus(HttpStatus.OK)
+    @GetMapping("findByLastname/{lastname}")
+    @ResponseStatus(HttpStatus.OK)             //checked
     public List<UserDTO> findUsersByLastnameLike(@PathVariable String lastname){
         return userService.findUsersByLastnameLike(lastname);
     }
 
     @PostMapping("save/")
-    @ResponseStatus(HttpStatus.OK)
+    @ResponseStatus(HttpStatus.OK)  //checked save & update
     public UserDTO saveUser(@RequestBody UserDTO userDTO){
         return userService.saveUser(userDTO);
     }
 
     @DeleteMapping("delete/")
-    @ResponseStatus(HttpStatus.OK)
+    @ResponseStatus(HttpStatus.OK)  //checked
     public void deleteUser(@RequestBody UserDTO userDTO){
         userService.deleteUser(userDTO);
     }
 
     @DeleteMapping("delete/{id}")
-    @ResponseStatus(HttpStatus.OK)
+    @ResponseStatus(HttpStatus.OK)  //checked
     public void deleteUserById(@PathVariable Long id){
         userService.deleteUserById(id);
     }
 
     @GetMapping("{id}")
-    @ResponseStatus(HttpStatus.OK)
+    @ResponseStatus(HttpStatus.OK)  //checked
     public UserDTO findUserById(@PathVariable Long id){
         return userService.findUserById(id);
     }
