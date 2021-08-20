@@ -17,4 +17,6 @@ public interface UserService {
     void deleteUserById(Long id);
 
     UserDTO findUserById(Long id);
+
+    UserDTO findUsersByUsernameAndPassword(UserDTO userDTO);
 }
