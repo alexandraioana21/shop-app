@@ -1,6 +1,7 @@
 package com.axonsoft.backend.services;
 
 import com.axonsoft.backend.domain.User;
+import com.axonsoft.backend.exceptions.NotFoundException;
 import com.axonsoft.backend.mappers.UserMapper;
 import com.axonsoft.backend.model.UserDTO;
 import com.axonsoft.backend.repositories.UserRepository;
@@ -39,6 +40,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserDTO saveUser(UserDTO userDTO) {
         User savedUser = userRepository.save(userMapper.userDTOToUser(userDTO));
+        System.out.println(savedUser);
         return userMapper.userToUserDTO(savedUser);
     }
 
@@ -54,6 +56,11 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserDTO findUserById(Long id) {
-        return userMapper.userToUserDTO(userRepository.findById(id).get());
+        return userMapper.userToUserDTO(userRepository.findById(id).orElseThrow(NotFoundException::new));
+    }
+
+    @Override
+    public UserDTO findUsersByUsernameAndPassword(UserDTO userDTO) {
+        return userMapper.userToUserDTO(userRepository.findByUsernameAndPassword(userDTO.getUsername(), userDTO.getPassword()).orElseThrow(NotFoundException::new));
     }
 }

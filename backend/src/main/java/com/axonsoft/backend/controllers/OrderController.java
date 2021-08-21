@@ -20,43 +20,42 @@ public class OrderController {
     }
 
     @GetMapping
-    @ResponseStatus(HttpStatus.OK)
+    @ResponseStatus(HttpStatus.OK)  //checked
     public List<OrderDTO> findAllOrders(){
         return orderService.findAllOrders();
     }
 
-    @GetMapping("{date}")
-    @ResponseStatus(HttpStatus.OK)
-    public List<OrderDTO> findOrdersByDate(@PathVariable LocalDate date){
-        return orderService.findOrdersByDate(date);
+    @GetMapping("findByDate/{date}")
+    @ResponseStatus(HttpStatus.OK) //checked
+    public List<OrderDTO> findOrdersByDate(@PathVariable String date){
+        return orderService.findOrdersByDate(LocalDate.parse(date));
     }
 
-    @GetMapping("save/")
-    @ResponseStatus(HttpStatus.OK)
+    @PostMapping("save/") //checked save & update
     public OrderDTO saveOrder(@RequestBody OrderDTO orderDTO){
         return orderService.saveOrder(orderDTO);
     }
 
     @DeleteMapping("delete/")
-    @ResponseStatus(HttpStatus.OK)
+    @ResponseStatus(HttpStatus.OK)  //checked
     public void deleteOrder(@RequestBody OrderDTO orderDTO){
         orderService.deleteOrder(orderDTO);
     }
 
     @DeleteMapping("delete/{id}")
-    @ResponseStatus(HttpStatus.OK)
+    @ResponseStatus(HttpStatus.OK)  //checked
     public void deleteOrderById(@PathVariable Long id){
         orderService.deleteOrderById(id);
     }
 
-    @GetMapping("/find")
-    @ResponseStatus(HttpStatus.OK)
+    @GetMapping("/findByUser")
+    @ResponseStatus(HttpStatus.OK) //checked
     public List<OrderDTO> findOrdersByUser(@RequestBody UserDTO userDTO){
         return orderService.findOrdersByUser(userDTO);
     }
 
     @GetMapping("{id}")
-    @ResponseStatus(HttpStatus.OK)
+    @ResponseStatus(HttpStatus.OK) //checked
     public OrderDTO findOrderById(@PathVariable Long id){
         return orderService.findOrderById(id);
     }

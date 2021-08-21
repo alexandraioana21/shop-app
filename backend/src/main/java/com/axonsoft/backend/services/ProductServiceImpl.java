@@ -1,6 +1,8 @@
 package com.axonsoft.backend.services;
 
 import com.axonsoft.backend.domain.Product;
+import com.axonsoft.backend.domain.ProductType;
+import com.axonsoft.backend.exceptions.NotFoundException;
 import com.axonsoft.backend.mappers.ProductMapper;
 import com.axonsoft.backend.model.ProductDTO;
 import com.axonsoft.backend.repositories.ProductRepository;
@@ -22,7 +24,7 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public ProductDTO findProductById(Long id) {
-        return productMapper.productToProductDTO(productRepository.findById(id).get());
+        return productMapper.productToProductDTO(productRepository.findById(id).orElseThrow(NotFoundException::new));
     }
 
     @Override
@@ -55,5 +57,20 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public void deleteProductById(Long id) {
         productRepository.deleteById(id);
+    }
+
+    @Override
+    public List<ProductDTO> findProductsByProductType(String type) {
+        if (type.toLowerCase().equals("fruit"))
+            return productRepository.findByProductType(ProductType.FRUIT).stream().map(product -> {
+                ProductDTO productDTO = productMapper.productToProductDTO(product);
+                return productDTO;
+            }).collect(Collectors.toList());
+        else if (type.toLowerCase().equals("vegetable"))
+            return productRepository.findByProductType(ProductType.VEGETABLE).stream().map(product -> {
+                ProductDTO productDTO = productMapper.productToProductDTO(product);
+                return productDTO;
+            }).collect(Collectors.toList());
+        else throw new NotFoundException();
     }
 }
