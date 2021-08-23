@@ -36,7 +36,7 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public List<OrderDTO> findOrdersByDate(LocalDate date) {
-        return orderRepository.findAll().stream().filter(order -> order.getDate().isEqual(date)).map(order -> {
+        return orderRepository.findOrdersByDate(date).stream().map(order -> {
             OrderDTO orderDTO = orderMapper.orderToOrderDTO(order);
             return orderDTO;
         }).collect(Collectors.toList());
@@ -68,6 +68,7 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public OrderDTO findOrderById(Long id) {
-        return orderMapper.orderToOrderDTO(orderRepository.findById(id).orElseThrow(NotFoundException::new));
+        Order order = orderRepository.findById(id).orElseThrow(NotFoundException::new);
+        return orderMapper.orderToOrderDTO(order);
     }
 }

@@ -5,6 +5,7 @@ import com.axonsoft.backend.exceptions.NotFoundException;
 import com.axonsoft.backend.mappers.UserMapper;
 import com.axonsoft.backend.model.UserDTO;
 import com.axonsoft.backend.repositories.UserRepository;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -15,10 +16,12 @@ public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
     private final UserMapper userMapper;
+    private final PasswordEncoder passwordEncoder;
 
-    public UserServiceImpl(UserRepository userRepository, UserMapper userMapper) {
+    public UserServiceImpl(UserRepository userRepository, UserMapper userMapper, PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
         this.userMapper = userMapper;
+        this.passwordEncoder = passwordEncoder;
     }
 
     @Override
@@ -39,6 +42,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserDTO saveUser(UserDTO userDTO) {
+        userDTO.setPassword(passwordEncoder.encode(userDTO.getPassword()));
         User savedUser = userRepository.save(userMapper.userDTOToUser(userDTO));
         System.out.println(savedUser);
         return userMapper.userToUserDTO(savedUser);
@@ -61,6 +65,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserDTO findUsersByUsernameAndPassword(UserDTO userDTO) {
-        return userMapper.userToUserDTO(userRepository.findByUsernameAndPassword(userDTO.getUsername(), userDTO.getPassword()).orElseThrow(NotFoundException::new));
+        String encodedPass = passwordEncoder.encode(userDTO.getPassword());
+        return userMapper.userToUserDTO(userRepository.findByUsernameAndPassword(userDTO.getUsername(), encodedPass).orElseThrow(NotFoundException::new));
     }
 }
