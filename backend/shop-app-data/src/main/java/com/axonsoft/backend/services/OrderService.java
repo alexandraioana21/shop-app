@@ -1,7 +1,6 @@
 package com.axonsoft.backend.services;
 
 import com.axonsoft.backend.model.OrderDTO;
-import com.axonsoft.backend.model.UserDTO;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -18,7 +17,7 @@ public interface OrderService {
 
     void deleteOrderById(Long id);
 
-    List<OrderDTO> findOrdersByUser(UserDTO userDTO);
+    List<OrderDTO> findOrdersByUserId(Long userId);
 
     OrderDTO findOrderById(Long id);
 }
