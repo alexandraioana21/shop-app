@@ -1,0 +1,17 @@
+<ul class="nav navbar-nav">
+  <li class="dropdown" appDropdown >
+    <a  style="cursor: pointer;" class="dropdown-toggle">Products <span class="caret"></span></a>
+    <ul class="dropdown-menu">
+      <li>
+        <a routerLink="/type/{{productType.FRUIT}}" routerLinkActive="active-link">
+          {{ productType.FRUIT }}
+        </a>
+      </li>
+      <li>
+        <a routerLink="/type/{{productType.VEGETABLE}}" routerLinkActive="active-link">
+          {{ productType.VEGETABLE}}
+        </a>
+      </li>
+    </ul>
+  </li>
+</ul>
