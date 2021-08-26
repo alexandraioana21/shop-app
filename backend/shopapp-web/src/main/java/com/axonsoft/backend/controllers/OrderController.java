@@ -2,7 +2,6 @@ package com.axonsoft.backend.controllers;
 
 
 import com.axonsoft.backend.model.OrderDTO;
-import com.axonsoft.backend.model.UserDTO;
 import com.axonsoft.backend.services.OrderService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -15,7 +14,6 @@ import java.util.List;
 @Api(description = "This is a Controller for Orders")
 @RestController
 @RequestMapping("/orders/")
-@CrossOrigin("http://localhost:4200")
 public class OrderController {
 
     private final OrderService orderService;
@@ -59,10 +57,10 @@ public class OrderController {
     }
 
     @ApiOperation(value = "This will find orders by user.", notes = "The user will be given in the body.")
-    @GetMapping("/findByUser")
+    @GetMapping("/findByUser/{userId}")
     @ResponseStatus(HttpStatus.OK) //checked
-    public List<OrderDTO> findOrdersByUser(@RequestBody UserDTO userDTO){
-        return orderService.findOrdersByUser(userDTO);
+    public List<OrderDTO> findOrdersByUser(@PathVariable Long userId){
+        return orderService.findOrdersByUserId(userId);
     }
 
     @ApiOperation(value = "This will find an order by id.", notes = "The id will be given in the path.")

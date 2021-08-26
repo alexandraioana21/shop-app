@@ -5,7 +5,6 @@ import com.axonsoft.backend.domain.User;
 import com.axonsoft.backend.exceptions.NotFoundException;
 import com.axonsoft.backend.mappers.OrderMapper;
 import com.axonsoft.backend.model.OrderDTO;
-import com.axonsoft.backend.model.UserDTO;
 import com.axonsoft.backend.repositories.OrderRepository;
 import com.axonsoft.backend.repositories.UserRepository;
 import org.junit.jupiter.api.BeforeEach;
@@ -123,10 +122,7 @@ class OrderServiceTest {
 
         when(orderMapper.orderToOrderDTO(any())).thenReturn(orderDTO);
 
-        UserDTO userDTO = new UserDTO();
-        userDTO.setId(1L);
-
-        List<OrderDTO> orderDTOs = orderService.findOrdersByUser(userDTO);
+        List<OrderDTO> orderDTOs = orderService.findOrdersByUserId(1L);
 
         assertEquals(orderDTOs.size(), 1);
     }

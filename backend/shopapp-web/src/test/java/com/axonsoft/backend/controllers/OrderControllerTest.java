@@ -125,9 +125,9 @@ class OrderControllerTest {
 
     @Test
     void findOrdersByUser() throws Exception {
-        when(orderService.findOrdersByUser(any())).thenReturn(orders);
+        when(orderService.findOrdersByUserId(anyLong())).thenReturn(orders);
 
-        MvcResult result = mockMvc.perform(get("/orders/findByUser").contentType(MediaType.APPLICATION_JSON)
+        MvcResult result = mockMvc.perform(get("/orders/findByUser/1").contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON)
                 .content("{\"id\":\"3\",\"date\":\"2021-08-20\"}"))
                 .andExpect(status().isOk())
@@ -139,7 +139,7 @@ class OrderControllerTest {
 
         assertNotNull(list);
         assertEquals(list.size(), 2);
-        verify(orderService).findOrdersByUser(any());
+        verify(orderService).findOrdersByUserId(anyLong());
     }
 
     @Test

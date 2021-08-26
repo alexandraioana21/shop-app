@@ -24,6 +24,9 @@ public class User extends BaseEntity{
     private String username;
     private String password;
 
+   // @Enumerated(value = EnumType.STRING)
+    //private Role role;
+
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
     @JsonManagedReference
     private Set<Order> orders = new HashSet<>();
