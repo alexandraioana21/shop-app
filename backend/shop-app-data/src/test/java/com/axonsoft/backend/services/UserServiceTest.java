@@ -151,7 +151,7 @@ class UserServiceTest {
 
         when(userMapper.userToUserDTO(any())).thenReturn(userDTO);
 
-        UserDTO found = userService.findUsersByUsernameAndPassword(userDTO);
+        UserDTO found = userService.findUsersByUsernameAndPassword(userDTO.getUsername(), userDTO.getPassword());
 
         assertNotNull(found);
         verify(userRepository).findByUsername(anyString());
