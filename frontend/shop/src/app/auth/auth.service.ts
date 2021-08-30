@@ -1,17 +1,26 @@
 import {HttpClient} from "@angular/common/http";
 import {Injectable} from "@angular/core";
-import {User} from "../shared/user.model";
-import {UserSave} from "../shared/user-save.model";
-import {BehaviorSubject, Observable} from "rxjs";
-import {map} from "rxjs/operators";
+import {User} from "./user.model";
+import {BehaviorSubject} from "rxjs";
+import { tap} from "rxjs/operators";
 import {Router} from "@angular/router";
-import {Role} from "../shared/role.enum";
+import {UserData} from "./user-data.model";
+
+export interface AuthResponseData {
+  id: number;
+  username: string;
+  firstname: string;
+  lastname:string;
+
+}
 
 @Injectable({providedIn:'root'})
 export class AuthService {
+  private baseUrl = 'http://localhost:8080/users/';
   private loginUrl = 'http://localhost:8080/users/login';
   private saveUrl =  'http://localhost:8080/users/save/';
-  currentUser = new BehaviorSubject<User>(null);
+  currentUser = new BehaviorSubject<UserData>(null);
+  private token: string;
 
   constructor(private http: HttpClient,
               private router:Router) {
@@ -29,27 +38,38 @@ export class AuthService {
   }
 
   login(username: string, password: string) {
-    let user: User = {
-      username: username,
-      password: password
-    };
-    return this.http.post<User>(this.loginUrl,user)
-      .pipe(map( user =>{
-        localStorage.setItem('userData',JSON.stringify(user));
-        this.currentUser.next(user);
-        return user
+    return this.http.post<AuthResponseData>(this.loginUrl,{username, password})
+      .pipe(
+        tap( resData =>{
+        this.handleAuthentication(
+          resData.username,
+          resData.id
+        )
       }
     ));
   }
 
+  private handleAuthentication(
+    username: string,
+    userId: number
+  ) {
+    const userData = new UserData(username, userId);
+    this.currentUser.next(userData);
+    localStorage.setItem('userData', JSON.stringify(userData));
+  }
 
-  signup(user: UserSave) {
+
+  signup(user: User) {
     return this.http.post<User>(this.saveUrl,user);
+
+  }
+  getUserById(id: number){
+    return this.http.get<User>(this.baseUrl + id);
   }
 
   logout() {
     this.currentUser.next(null);
-    this.router.navigate(['/login']);
+    this.router.navigate(['/auth/login']);
     localStorage.removeItem('userData');
   }
   isUserLoggedIn() {
@@ -59,15 +79,25 @@ export class AuthService {
   }
 
   getLoggedInUser() {
-    let user = localStorage.getItem('userData')
+    let user = JSON.parse(localStorage.getItem('userData'));
     if (user === null) return ''
     return user
   }
+////////////////////////////////////////
+  public saveToken(token: string): void {
+    this.token = token;
+    localStorage.setItem('token', token);
+  }
 
-  // public get isAdmin(): boolean {
-  //   return this.getUserRole() === Role.ADMIN ;
-  // }
-  // private getUserRole(): string {
-  //   return this.authenticationService.getUserFromLocalCache().role;
-  // }
+
+  public loadToken(): void {
+    this.token = localStorage.getItem('token');
+  }
+
+  public getToken(): string {
+    return this.token;
+  }
+
+
+
 }

@@ -10,7 +10,7 @@ import {first} from "rxjs/operators";
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent implements OnInit {
-  loginForm!: FormGroup;
+  loginForm: FormGroup;
   loading = false;
   submitted = false;
   constructor( private formBuilder: FormBuilder,
@@ -27,12 +27,11 @@ export class LoginComponent implements OnInit {
   get f() { return this.loginForm.controls; }
 
   onSubmit() {
-    this.submitted = true;
     if (this.loginForm.invalid) {
       return;
     }
-
     this.loading = true;
+
     this.authService.login(this.f.username.value, this.f.password.value)
       .pipe(first())
       .subscribe(
@@ -42,6 +41,6 @@ export class LoginComponent implements OnInit {
         error => {
           this.loading = false;
         });
-  }
 
+  }
 }

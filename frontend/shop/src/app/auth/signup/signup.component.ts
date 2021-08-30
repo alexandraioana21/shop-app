@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {AuthService} from "../auth.service";
 import {Observable} from "rxjs";
-import {User} from "../../shared/user.model";
+import {User} from "../user.model";
 import {Router} from "@angular/router";
 import {first} from "rxjs/operators";
 
@@ -12,7 +12,7 @@ import {first} from "rxjs/operators";
   styleUrls: ['./signup.component.css']
 })
 export class SignupComponent implements OnInit {
-  signupForm!: FormGroup;
+  signupForm: FormGroup;
   loading = false;
   submitted = false;
   constructor(private formBuilder: FormBuilder,

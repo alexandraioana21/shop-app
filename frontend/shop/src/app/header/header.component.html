@@ -8,16 +8,16 @@
       <app-product-type></app-product-type>
       <app-search></app-search>
       <ul class="nav navbar-nav navbar-right">
-        <li class="dropdown" appDropdown>
+        <li class="dropdown" appDropdown *ngIf="isAuthenticated">
           <a class="dropdown-toggle" role="button"><i class="fas fa-user-circle fa-2x" ></i></a>
           <ul class="dropdown-menu">
-            <li><a routerLink="/orders">My Orders</a></li>
-            <li><a routerLink="/my-account">My Account</a></li>
+            <li><a routerLink="/orders/orders-list">My Orders</a></li>
+            <li><a routerLink="/auth/my-account">My Account</a></li>
           </ul>
         </li>
         <li routerLinkActive="active"><a routerLink="/cart-details"><i class="fas fa-shopping-basket fa-1x "></i></a></li>
-        <li routerLinkActive="active"><a routerLink="/login"><i class="fas fa-sign-in-alt fa-1x"></i></a></li>
-        <li><a routerLink="/products" (click)="onLogout()"><i class="fas fa-sign-out-alt fa-1x"></i></a> </li>
+        <li routerLinkActive="active" *ngIf="!isAuthenticated"><a routerLink="/auth/login"><i class="fas fa-sign-in-alt fa-1x"></i></a></li>
+        <li><a routerLink="/products" (click)="onLogout()" *ngIf="isAuthenticated"><i class="fas fa-sign-out-alt fa-1x"></i></a> </li>
 
       </ul>
     </div>

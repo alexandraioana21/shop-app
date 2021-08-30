@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {CartItem} from "../shared/cart-item.model";
+import {CartItem} from "./cart-item.model";
 import {CartService} from "./cart.service";
 
 @Component({
@@ -37,4 +37,5 @@ export class CartDetailsComponent implements OnInit {
   remove(theCartItem: CartItem) {
     this.cartService.remove(theCartItem);
   }
+
 }

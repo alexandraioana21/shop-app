@@ -1,4 +1,4 @@
-import {CartItem} from "../shared/cart-item.model";
+import {CartItem} from "./cart-item.model";
 import {Injectable} from "@angular/core";
 import {BehaviorSubject, Subject} from "rxjs";
 

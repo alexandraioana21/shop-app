@@ -1,5 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import {Order} from "../shared/order.model";
+import {Order} from "./order.model";
+import {AuthService} from "../auth/auth.service";
+import {OrdersService} from "./orders.service";
+import {User} from "../auth/user.model";
 
 @Component({
   selector: 'app-orders',
@@ -7,10 +10,14 @@ import {Order} from "../shared/order.model";
   styleUrls: ['./orders.component.css']
 })
 export class OrdersComponent implements OnInit {
-orders :Order[];
+
   constructor() { }
 
   ngOnInit(): void {
+
+
+
   }
+
 
 }
