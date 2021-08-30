@@ -64,9 +64,11 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserDTO findUsersByUsernameAndPassword(UserDTO userDTO) {
-        String encodedPass = passwordEncoder.encode(userDTO.getPassword());
-        return userMapper.userToUserDTO(userRepository.findByUsernameAndPassword(userDTO.getUsername(), encodedPass).orElseThrow(NotFoundException::new));
+    public UserDTO findUsersByUsernameAndPassword(String username, String password) {
+        User found = userRepository.findByUsername(username).orElseThrow(NotFoundException::new);
+        if (passwordEncoder.matches(password, found.getPassword()))
+            return userMapper.userToUserDTO(found);
+        else throw new NotFoundException();
     }
 
     @Override

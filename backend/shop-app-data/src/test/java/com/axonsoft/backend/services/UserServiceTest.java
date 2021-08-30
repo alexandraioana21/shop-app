@@ -146,14 +146,14 @@ class UserServiceTest {
 
     @Test
     void findUsersByUsernameAndPassword() {
-        when(passwordEncoder.encode(anyString())).thenReturn("password");
-        when(userRepository.findByUsernameAndPassword(anyString(), anyString())).thenReturn(Optional.of(returnUser));
+        when(passwordEncoder.matches(anyString(), anyString())).thenReturn(true);
+        when(userRepository.findByUsername(anyString())).thenReturn(Optional.of(returnUser));
 
         when(userMapper.userToUserDTO(any())).thenReturn(userDTO);
 
-        UserDTO found = userService.findUsersByUsernameAndPassword(userDTO);
+        UserDTO found = userService.findUsersByUsernameAndPassword(userDTO.getUsername(), userDTO.getPassword());
 
         assertNotNull(found);
-        verify(userRepository).findByUsernameAndPassword(anyString(), anyString());
+        verify(userRepository).findByUsername(anyString());
     }
 }

@@ -20,6 +20,9 @@ public class UserDTO {
     @ApiModelProperty(value = "User's id", required = true)
     private Long id;
 
+    @ApiModelProperty(value = "User's token", required = true)
+    private String token;
+
     @ApiModelProperty(value = "User's firstname", required = true)
     @NotBlank
     private String firstname;

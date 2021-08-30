@@ -4,7 +4,6 @@ import com.axonsoft.backend.domain.Order;
 import com.axonsoft.backend.exceptions.NotFoundException;
 import com.axonsoft.backend.mappers.OrderMapper;
 import com.axonsoft.backend.model.OrderDTO;
-import com.axonsoft.backend.model.UserDTO;
 import com.axonsoft.backend.repositories.OrderRepository;
 import com.axonsoft.backend.repositories.UserRepository;
 import org.springframework.stereotype.Service;
@@ -59,8 +58,8 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public List<OrderDTO> findOrdersByUser(UserDTO userDTO) {
-        return userRepository.findById(userDTO.getId()).get().getOrders().stream().map(order -> {
+    public List<OrderDTO> findOrdersByUserId(Long userId) {
+        return userRepository.findById(userId).get().getOrders().stream().map(order -> {
             OrderDTO orderDTO = orderMapper.orderToOrderDTO(order);
             return orderDTO;
         }).collect(Collectors.toList());
