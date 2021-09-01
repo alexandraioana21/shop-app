@@ -63,7 +63,6 @@ public class UserController {
     @ApiOperation(value = "This will save or update an user.", notes = "The user will be given in the body.")
     @PostMapping("notRestricted/save/")
     @ResponseStatus(HttpStatus.OK)  //checked save & update
-    //@PreAuthorize("hasRole(T(com.axonsoft.backend.domain.Role).ADMIN.toString())")
     public UserDTO saveUser(@RequestBody UserDTO userDTO){
         return userService.saveUser(userDTO);
     }

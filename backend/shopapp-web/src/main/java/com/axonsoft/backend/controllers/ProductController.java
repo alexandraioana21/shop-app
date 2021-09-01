@@ -5,6 +5,7 @@ import com.axonsoft.backend.services.ProductService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -51,6 +52,7 @@ public class ProductController {
     @ApiOperation(value = "This will save or update a product.", notes = "The product will be given in the body.")
     @PostMapping("save/")
     @ResponseBody           //checked save & update
+    @PreAuthorize("hasRole('ADMIN')")
     public ProductDTO saveProduct(@RequestBody ProductDTO productDTO){
         return productService.saveProduct(productDTO);
     }
@@ -58,6 +60,7 @@ public class ProductController {
     @ApiOperation(value = "This will update a product.", notes = "The product will be given in the body and the id in the path.")
     @PutMapping("update/{id}")
     @ResponseBody           //checked save & update
+    @PreAuthorize("hasRole('ADMIN')")
     public ProductDTO updateProduct(@RequestBody ProductDTO productDTO, @PathVariable Long id){
         productDTO.setId(id);
         return productService.saveProduct(productDTO);
@@ -66,6 +69,7 @@ public class ProductController {
     @ApiOperation(value = "This will delete a product.", notes = "The product will be given in the body.")
     @DeleteMapping("delete/")
     @ResponseStatus(HttpStatus.OK) //checked
+    @PreAuthorize("hasRole('ADMIN')")
     public void deleteProduct(@RequestBody ProductDTO productDTO){
         productService.deleteProduct(productDTO);
     }
@@ -73,6 +77,7 @@ public class ProductController {
     @ApiOperation(value = "This will delete a product.", notes = "The id will be given in the path.")
     @DeleteMapping("delete/{id}")
     @ResponseStatus(HttpStatus.OK) //checked
+    @PreAuthorize("hasRole('ADMIN')")
     public void deleteProductById(@PathVariable Long id){
         productService.deleteProductById(id);
     }

@@ -5,12 +5,14 @@ import com.axonsoft.backend.exceptions.NotFoundException;
 import com.axonsoft.backend.model.TokenDTO;
 import com.axonsoft.backend.repositories.UserRepository;
 import org.springframework.context.annotation.Primary;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Set;
 
 @Component
 @Primary
@@ -36,6 +38,13 @@ public class JWTService implements UserDetailsService {
         else {
             return new User(user.getUsername(),
                     user.getPassword(),
-                    new ArrayList<>());
-        }    }
+                    getAuthority(user));
+        }
+    }
+
+    private Set getAuthority(com.axonsoft.backend.domain.User user) {
+        Set authorities = new HashSet<>();
+        authorities.add(new SimpleGrantedAuthority("ROLE_" + user.getRole().toString()));
+        return authorities;
+    }
 }
